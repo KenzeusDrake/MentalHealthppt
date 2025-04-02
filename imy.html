@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I MISS YOU Calculator</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #9b59b6, #1abc9c); /* Violet to Teal gradient */
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      width: 100%;
+      max-width: 360px; /* Ensures it's not too wide on large screens */
+      background: linear-gradient(135deg, #8e44ad, #16a085); /* Darker gradient for the calculator */
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      grid-template-rows: auto; /* Ensures equal spacing between rows */
+    }
+
+    /* Buttons Styles */
+    .calculator button {
+      background: linear-gradient(135deg, #64b3f4, #5198ff); /* Gradient for buttons */
+      color: #fff;
+      font-size: 24px;
+      padding: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator button:hover {
+      background: linear-gradient(135deg, #56a0f5, #4189e7); /* Lighter gradient on hover */
+      transform: scale(1.1);
+    }
+
+    .display {
+      grid-column: span 4;
+      background-color: #111;
+      color: #fff;
+      font-size: 32px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-family: 'Courier New', Courier, monospace; /* Pixelated font */
+    }
+
+    .display:empty {
+      color: #999;
+    }
+
+    .calculator button:active {
+      background: linear-gradient(135deg, #4189e7, #56a0f5);
+    }
+
+    .calculator button:focus {
+      outline: none;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 600px) {
+      .calculator {
+        max-width: 95%; /* Ensures the calculator fits on smaller screens */
+        padding: 15px;
+      }
+
+      .display {
+        font-size: 28px;
+        padding: 15px;
+      }
+
+      .calculator button {
+        font-size: 20px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <button onclick="appendNumber(7)">7</button>
+    <button onclick="appendNumber(8)">8</button>
+    <button onclick="appendNumber(9)">9</button>
+    <button onclick="appendOperator('+')">+</button>
+    <button onclick="appendNumber(4)">4</button>
+    <button onclick="appendNumber(5)">5</button>
+    <button onclick="appendNumber(6)">6</button>
+    <button onclick="appendOperator('-')">-</button>
+    <button onclick="appendNumber(1)">1</button>
+    <button onclick="appendNumber(2)">2</button>
+    <button onclick="appendNumber(3)">3</button>
+    <button onclick="appendOperator('*')">*</button>
+    <button onclick="appendNumber(0)">0</button>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendOperator('/')">/</button>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+    let isResult = false; // Flag to check if result is displayed
+
+    // Function to append number to the display
+    function appendNumber(number) {
+      if (isResult) {
+        display.innerText = number; // Reset display if the result was shown
+        isResult = false; // Reset the result flag
+      } else {
+        if (display.innerText === '0') {
+          display.innerText = number;
+        } else {
+          display.innerText += number;
+        }
+      }
+    }
+
+    // Function to append operator to the display
+    function appendOperator(operator) {
+      if (isResult) {
+        display.innerText = operator; // Reset display to operator after result
+        isResult = false; // Reset the result flag
+      } else {
+        display.innerText += ' ' + operator + ' ';
+      }
+    }
+
+    // Function to clear the display
+    function clearDisplay() {
+      display.innerText = '0';
+      isResult = false; // Reset the result flag
+    }
+
+    // Function to calculate and override the result
+    function calculate() {
+      // Regardless of the calculation, we always set the display to "I MISS YOU"
+      display.innerText = "I MISS YOU";
+      isResult = true; // Set the result flag to true
+    }
+
+    // Keyboard support: listening for keypresses
+    window.addEventListener('keydown', function(e) {
+      if (e.key >= 0 && e.key <= 9) {
+        appendNumber(e.key); // Numbers 0-9
+      } else if (['+', '-', '*', '/'].includes(e.key)) {
+        appendOperator(e.key); // Operators
+      } else if (e.key === 'Enter' || e.key === '=') {
+        calculate(); // Equals
+      } else if (e.key === 'Backspace') {
+        clearDisplay(); // Clear
+      }
+    });
+  </script>
+
+</body>
+</html>
